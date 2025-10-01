@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -8,77 +7,49 @@
     <groupId>com.example</groupId>
     <artifactId>example-project</artifactId>
     <version>1.0-SNAPSHOT</version>
- 
     <name>com.Bot</name>
     <url>http://www.example.com</url>
- 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <cucumber.version>7.11.1</cucumber.version>
+        <surefire.version>3.0.0-M7</surefire.version>
     </properties>
- 
+
     <dependencies>
-        <!-- JUnit Jupiter for testing -->
+        <!-- JUnit & Cucumber -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
         </dependency>
- 
-        <!-- JUnit Vintage for backward compatibility -->
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
         </dependency>
-     
-        <!-- JUnit for legacy support -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
- 
-        <!-- Cucumber for BDD testing -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.11.1</version>
-        </dependency>
-    
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>7.11.1</version>
-        </dependency>
- 
-        <!-- Rest Assured for API testing -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>4.4.0</version>
-            <scope>test</scope>
-        </dependency>
- 
-        <!-- Selenium WebDriver for browser automation -->
+
+        <!-- Selenium & WebDriverManager -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.8.1</version>
         </dependency>
- 
-        <!-- WebDriverManager for managing WebDriver binaries -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.4.1</version>
         </dependency>
- 
-        <!-- Log4j for logging -->
+
+        <!-- Logging -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -89,36 +60,50 @@
             <artifactId>log4j-api</artifactId>
             <version>2.17.2</version>
         </dependency>
- 
-        <!-- TestNG for testing -->
+
+        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.7.1</version>
             <scope>test</scope>
         </dependency>
-        
-        <!-- Cucumber Reporting for generating test reports -->
+
+        <!-- Rest Assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cucumber Reporting -->
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
             <version>5.7.5</version>
         </dependency>
     </dependencies>
- 
+
     <build>
         <plugins>
-            <!-- Maven Surefire Plugin for test execution -->
+            <!-- Maven Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>${surefire.version}</version>
                 <configuration>
+                    <includes>
+                        <include>**/*Runner*.java</include>
+                    </includes>
                     <testFailureIgnore>true</testFailureIgnore>
+                    <systemPropertyVariables>
+                        <cucumber.options>--plugin json:target/cucumber.json</cucumber.options>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
-            
-            <!-- Cucumber Reporting Plugin for generating HTML reports -->
+
+            <!-- Cucumber Reporting Plugin -->
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
