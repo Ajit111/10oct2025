@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Java JDK 1.8
-      - name: Set up JDK 1.8
+      # Step 2: Set up flexible Java 8 (latest patch automatically)
+      - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
-          java-version: '1.8'
+          java-version: '8'      # Flexible, automatically picks latest patch of Java 8
           distribution: 'temurin'
-          cache: maven  # Automatically caches ~/.m2/repository
+          cache: maven           # Automatically caches ~/.m2/repository
 
       # Step 3: Build project and run tests
       - name: Build project and run tests
